@@ -1,0 +1,35 @@
+# Source: https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: litecoin 
+spec:
+  serviceName: "litecoin"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: litecoin 
+  template:
+    metadata:
+      labels:
+        app: litecoin 
+    spec:
+      containers:
+      - name: litecoin
+        image: ghcr.io/metasikander/litecoin:latest 
+        volumeMounts:
+        - name: data 
+          mountPath: /data
+      volumes:
+        - name: data
+        persistenVolumeClaim:
+          claimName: data
+  volumeClaimTemplates:
+  - metadata:
+      name: data 
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1000Mi
