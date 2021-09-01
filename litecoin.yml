@@ -23,8 +23,6 @@ spec:
           mountPath: /data
       volumes:
         - name: data
-        persistenVolumeClaim:
-          claimName: data
   volumeClaimTemplates:
   - metadata:
       name: data 
